@@ -19,11 +19,13 @@ class AstronomyUITests: XCTestCase {
     // test saving a photo
     // test viewing another sol (14-16)
     func testExample() {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let app = XCUIApplication()
+        app.collectionViews.children(matching: .cell).element(boundBy: 3).images["CollectionView.Image"].tap()
+        app/*@START_MENU_TOKEN@*/.buttons["PhotoDetailViewController.SaveButton"]/*[[".buttons[\"Save to Photo Library\"]",".buttons[\"PhotoDetailViewController.SaveButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.alerts["Photo Saved!"].scrollViews.otherElements.buttons["Okay"].tap()
+        
+
     }
 }
