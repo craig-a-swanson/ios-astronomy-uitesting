@@ -18,6 +18,8 @@ class AstronomyUITests: XCTestCase {
     }
     
     func testPermitPhotoLibraryAccess() {
+        
+        // NOTE ====================
         // Only returns true on first run of app when system requests photo library access
         
         app.collectionViews.children(matching: .cell).element(boundBy: 6).images["CollectionView.Image"].tap()
@@ -55,7 +57,7 @@ class AstronomyUITests: XCTestCase {
         }
     }
     
-    func testGoBackOneSol() {
+    func testGoForwardAndBackOneSol() {
         app.navigationBars["Sol 15"]/*@START_MENU_TOKEN@*/.buttons["PhotosCollectionViewController.NextSolButton"]/*[[".buttons[\">\"]",".buttons[\"PhotosCollectionViewController.NextSolButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         XCTAssertTrue(app.navigationBars["Sol 16"].exists)
         app.navigationBars["Sol 16"]/*@START_MENU_TOKEN@*/.buttons["PhotosCollectionViewController.PreviousSolButton"]/*[[".buttons[\"<\"]",".buttons[\"PhotosCollectionViewController.PreviousSolButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
