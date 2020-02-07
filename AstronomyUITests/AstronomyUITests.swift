@@ -13,8 +13,8 @@ class AstronomyUITests: XCTestCase {
     let app = XCUIApplication()
 
     override func setUp() {
-        app.launch()
         app.launchArguments = ["UITesting"]
+        app.launch()
     }
 
     // at least 4 tests.
@@ -24,18 +24,23 @@ class AstronomyUITests: XCTestCase {
     // maybe test photo detail date by comparing it to sol date from table view?
     func testSavePhoto() {
 
-        app.collectionViews.children(matching: .cell).element(boundBy: 0).images["CollectionView.Image"].tap()
+        app.collectionViews.children(matching: .cell).element(boundBy: 6).images["CollectionView.Image"].tap()
         app/*@START_MENU_TOKEN@*/.buttons["PhotoDetailViewController.SaveButton"]/*[[".buttons[\"Save to Photo Library\"]",".buttons[\"PhotoDetailViewController.SaveButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.alerts["Photo Saved!"].scrollViews.otherElements.buttons["Okay"].tap()
-/*
-         NOTE: upon first run, tapping on save image brings the alert to allow access to photo library
-         attempted to automate with this code, but it did not work
-        let photoLibraryAccessAlert = app.alerts["“Astronomy” Would Like to Access Your Photos"].scrollViews.otherElements.buttons["OK"]
-        if photoLibraryAccessAlert.exists {
-            photoLibraryAccessAlert.tap()
+        addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+            let okButton = alert.buttons["OK"]
+            if okButton.exists{
+                alert.buttons["OK"].tap()
+            }
+                return true
+            }
+        
+        if app.alerts["Photo Saved!"].exists {
+        XCTAssertTrue(app.alerts["Photo Saved!"].exists)
+        } else {
+            app.tap()
             app/*@START_MENU_TOKEN@*/.buttons["PhotoDetailViewController.SaveButton"]/*[[".buttons[\"Save to Photo Library\"]",".buttons[\"PhotoDetailViewController.SaveButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            XCTAssertTrue(app.alerts["Photo Saved!"].exists)
         }
- */
     }
     
     func testScrollCollectionView() {
